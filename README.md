@@ -5,6 +5,8 @@ UML Diagram: https://app.diagrams.net/#G1NdVyJooq2UGCAlhIzcAXmQYXqX1VvJNd
 
 Program Flow Draft: https://docs.google.com/document/d/1wL7e-JiF5f8D7hEwn5blS1R62kNSNY3vZR4nuj5tty8/edit
 
+Report: https://imailsunwayedu-my.sharepoint.com/:w:/g/personal/23011695_imail_sunway_edu_my/EU7FZ7DshglFmi7jWIddCtgBpUwPxMF39wX0zTMoNIc00g?e=sWDutv
+
 	Pokemon Damage Calculation
  
 	Assume:
