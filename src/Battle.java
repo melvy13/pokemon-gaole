@@ -10,13 +10,15 @@ public class Battle {
     private Player player;
     Random rand = new Random();
     Scanner input = new Scanner(System.in);
+	
     private ArrayList<Pokemon> pool = Game.pool;
 
     // Battle flow
     public void startBattle() {
         displayWildPokemons();
         choosePokemons();
-        battleSequence();
+        String attacker = battleSequence();
+        dealDamage(attacker);
     }
 
     // Display 2 random wild Pokemons from pool
@@ -71,7 +73,7 @@ public class Battle {
         int hiddenNo = rand.nextInt(1, 101);
         System.out.print("Input a random number from 1-100!: ");
         int userNo = input.nextInt();
-        String attacking; // to return either "enemy" or "user" for whoever is attacking
+        String attacker; // to return either "enemy" or "user" for whoever is attacking
 
         while (true) {
             int enemyNo = rand.nextInt(1, 101);
@@ -99,6 +101,17 @@ public class Battle {
                 break;
             }
         }
-        return attacking;
+        return attacker;
+    }
+
+	// Calculate damage
+	private int calculateDamage(Pokemon attacker, Pokemon defender) {
+        int att = attacker.getAtt();
+        int def = defender.getDef();
+        int level = attacker.getLevel();
+        double effectiveness = defender.effectiveness(attacker.getType());       
+
+        double damage = ((0.4 * level + 2) * att / def + 2) * effectiveness * rand.nextDouble(0.85, 1.00);
+        return (int)damage;
     }
 }
