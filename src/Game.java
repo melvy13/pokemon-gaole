@@ -34,6 +34,25 @@ public class Game {
     Player player = new Player();
     Battle battle = new Battle();
 
+	// Grade1 = Level 30 ; Grade2 = Level 40 ; Grade3 = Level 50 ; Grade4 = Level 60
+	public void setPokemonLevel() {
+		for (Pokemon i : grade1) {
+			i.setLevel(30);
+		}
+
+		for (Pokemon i : grade2) {
+			i.setLevel(40);
+		}
+
+		for (Pokemon i : grade3) {
+			i.setLevel(50);
+		}
+
+		for (Pokemon i : grade4) {
+			i.setLevel(60);
+		}
+	}
+	
     // Display 3 random Pokemons from Grade 1-3 each, let user choose 1 and determine the Pokemon pool (The Pokemons that may appear in battle later)
     // If Grade1 Pokemon is chosen -> Pool = Grade1 + Grade2
     // If Grade2 Pokemon is chosen -> Pool = Grade1 + Grade2 + Grade3
