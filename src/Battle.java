@@ -61,4 +61,38 @@ public class Battle {
             pokemon2 = playerPokemons.get(choice2-1);
         }
     }
+
+	// Determine who attacks first
+    // 1. Computer generates a hidden number from 1-100
+    // 2. Computer generates another random number to represent enemy's input
+    // 3. User input a random number
+    // 4. Whoever's random number is closer to the hidden number will attack first
+    private void battleSequence() {
+        int hiddenNo = rand.nextInt(100);
+        int enemyNo = rand.nextInt(100);
+
+        System.out.print("Input a random number from 1-100!: ");
+        int userNo = input.nextInt();
+
+        int enemyDiff = Math.abs(hiddenNo - enemyNo);
+        int userDiff = Math.abs(hiddenNo - userNo);
+
+        System.out.printf("The hidden number was %d!\n", hiddenNo);
+        System.out.printf("Your number: %d  Enemy's number: %d\n", userNo, enemyNo);
+
+        if (enemyDiff < userDiff) {
+            System.out.println("Enemy's number is closer to the hidden number!");
+            System.out.println("Enemy will attack!");
+        }
+
+        else if (enemyDiff > userDiff) {
+            System.out.println("Your number is closer to the hidden number!");
+            System.out.println("You will attack!");
+        }
+
+        else {
+            System.out.println("Your number and enemy's number have the same distance to the hidden number!");
+            // loop again?
+        }
+    }
 }
