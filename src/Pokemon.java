@@ -49,6 +49,11 @@ public class Pokemon {
         this.type = type;
     }
 
+    public double effectiveness(String enemyType) {
+        double effectiveness = 1;
+        return effectiveness;
+    }
+    
     @Override
     public String toString() {
         return String.format("%s [%s] HP: %d Attack: %d Defense: %d", name, type, hp, att, def);
