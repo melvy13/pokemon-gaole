@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Game {
 	
-	// Initialising all Pokemons in the game
+    // Initialising all Pokemons in the game
     FireType chimchar = new FireType("Chimchar", 81, 49, 38);
     FireType charmeleon = new FireType("Charmeleon", 100, 72, 53);
     FireType blaziken = new FireType("Blaziken", 137, 122, 73);
