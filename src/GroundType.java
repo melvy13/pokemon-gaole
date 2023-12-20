@@ -8,4 +8,17 @@ public class GroundType extends Pokemon {
         super(name, hp, att, def);
         setType("Ground");
     }
+
+    public double effectiveness(String enemyType) {
+        double effectiveness = 1;
+        if (enemyType == "Water" || enemyType == "Grass") {
+            effectiveness = 2;
+        }
+
+        else if (enemyType == "Electric") {
+            effectiveness = 0;
+        }
+
+        return effectiveness;
+    }
 }
