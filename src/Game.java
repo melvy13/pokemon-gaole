@@ -13,10 +13,16 @@ public class Game {
     GrassType rowlet = new GrassType("Rowlet", 90, 42, 35);
     GrassType bayleef = new GrassType("Bayleef", 104, 58, 74);
     GrassType torterra = new GrassType("Torterra", 155, 80, 100);
+    ElectricType shinx = new ElectricType("Shinx", 76, 42, 33);
+    ElectricType luxio = new ElectricType("Luxio", 107, 74, 69);
+    ElectricType luxray = new ElectricType("Luxray", 136, 103, 74);
+    GroundType sandshrew = new GroundType("Sandshrew", 70, 45, 58);
+    GroundType nidorina = new GroundType("Nidorina", 118, 60, 65);
+    GroundType sandslash = new GroundType("Sandslash", 143, 90, 100);
 
-    Pokemon[] grade1 = {chimchar, piplup, rowlet};
-    Pokemon[] grade2 = {charmeleon, poliwhirl, bayleef};
-    Pokemon[] grade3 = {blaziken, blastoise, torterra};
+    Pokemon[] grade1 = {chimchar, piplup, rowlet, shinx, sandshrew};
+    Pokemon[] grade2 = {charmeleon, poliwhirl, bayleef, luxio, nidorina};
+    Pokemon[] grade3 = {blaziken, blastoise, torterra, luxray, sandslash};
     Pokemon[] grade4 = {greninja};
     ArrayList<Pokemon> pool = new ArrayList<Pokemon>();
     Random rand = new Random();
