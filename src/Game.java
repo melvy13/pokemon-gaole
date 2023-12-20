@@ -3,6 +3,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
+	
+	// Initialising all Pokemons in the game
     FireType chimchar = new FireType("Chimchar", 81, 49, 38);
     FireType charmeleon = new FireType("Charmeleon", 100, 72, 53);
     FireType blaziken = new FireType("Blaziken", 137, 122, 73);
@@ -24,10 +26,18 @@ public class Game {
     Pokemon[] grade2 = {charmeleon, poliwhirl, bayleef, luxio, nidorina};
     Pokemon[] grade3 = {blaziken, blastoise, torterra, luxray, sandslash};
     Pokemon[] grade4 = {greninja};
-    ArrayList<Pokemon> pool = new ArrayList<Pokemon>();
+
+    public static ArrayList<Pokemon> pool = new ArrayList<Pokemon>(); 
+	
     Random rand = new Random();
     Scanner input = new Scanner(System.in);
+    Player player = new Player();
+    Battle battle = new Battle();
 
+    // Display 3 random Pokemons from Grade 1-3 each, let user choose 1 and determine the Pokemon pool (The Pokemons that may appear in battle later)
+    // If Grade1 Pokemon is chosen -> Pool = Grade1 + Grade2
+    // If Grade2 Pokemon is chosen -> Pool = Grade1 + Grade2 + Grade3
+    // If Grade3 Pokemon is chosen -> Pool = Grade2 + Grade3 + Grade4
     public void setPokemonPool() {
         int i1 = rand.nextInt(grade1.length);
         int i2 = rand.nextInt(grade2.length);
@@ -40,7 +50,7 @@ public class Game {
 
         if (choice == 1) {
             System.out.printf("You have chosen %s!\n", grade1[i1].getName());
-            // add grade1[i1] into player disklist
+            // add grade1[i1] into player Pokemons list
             for (Pokemon i : grade1) {
                 pool.add(i);
             }
@@ -52,7 +62,7 @@ public class Game {
 
         else if (choice == 2) {
             System.out.printf("You have chosen %s!\n", grade2[i2].getName());
-            // add grade2[i2] into player disklist
+            // add grade2[i2] into player Pokemons disklist
             for (Pokemon i : grade1) {
                 pool.add(i);
             }
@@ -68,7 +78,7 @@ public class Game {
 
         else if (choice == 3) {
             System.out.printf("You have chosen %s!\n", grade3[i3].getName());
-            // add grade3[i3] into player disklist
+            // add grade3[i3] into player Pokemons disklist
             for (Pokemon i : grade2) {
                 pool.add(i);
             }
@@ -83,23 +93,26 @@ public class Game {
         }
     }
 
-    public void generateWildPokemons() {
-		int wild1 = rand.nextInt(pool.size());
-        int wild2 = rand.nextInt(pool.size());
-        System.out.printf("A wild %s and %s have appeared!\n", pool.get(wild1).getName(), pool.get(wild2).getName());
-    }
+	public void startGame() {
+		System.out.println("--------------------------------");
+		System.out.println("   Welcome to Pokémon Ga-Olé!   ");
+		System.out.println("    \"Battle and Catch\" mode    ");
+		System.out.println("--------------------------------\n");
 
-    public void startGame() {
-	System.out.println("--------------------------------");
-	System.out.println("   Welcome to Pokémon Ga-Olé!   ");
-	System.out.println("    \"Battle and Catch\" mode    ");
-	System.out.println("--------------------------------\n");
-	
-	System.out.println("\033[1mCatch Time!\033[0m");
-	setPokemonPool();
-	
-	System.out.println("\n\033[1mDepart For Battle!\033[0m");
-	generateWildPokemons();
-    }
+		System.out.println("\033[1mCatch Time!\033[0m");
+		setPokemonPool();
+		
+		System.out.println("\n\033[1mDepart For Battle!\033[0m");
+		battle.startBattle();
+
+		System.out.println("\033[1mCatch Pokémon!\033[0m");
+		// Catching
+
+		System.out.println("\033[1mCheck Your Results!\033[0m");
+		// Calculate score
+
+		System.out.println("\033[1mGa-Olé Medals\033[0m");
+		// Gaole Medals
+	}
 }
 
