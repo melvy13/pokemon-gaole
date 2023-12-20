@@ -8,4 +8,17 @@ public class ElectricType extends Pokemon {
         super(name, hp, att, def);
         setType("Electric");
     }
+
+    public double effectiveness(String enemyType) {
+        double effectiveness = 1;
+        if (enemyType == "Ground") {
+            effectiveness = 2;
+        }
+
+        else if (enemyType == "Electric") {
+            effectiveness = 0.5;
+        }
+
+        return effectiveness;
+    }
 }
