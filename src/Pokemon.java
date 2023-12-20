@@ -1,3 +1,4 @@
+
 public class Pokemon {
     protected String name, type;
     protected int hp, att, def;
@@ -8,6 +9,7 @@ public class Pokemon {
         hp = 100;
         att = 100;
         def = 100;
+        level = 30;
     }
 
     public Pokemon(String name, int hp, int att, int def) {
@@ -48,10 +50,20 @@ public class Pokemon {
     public void setType(String type) {
         this.type = type;
     }
+    public int getLevel() {
+        return level;
+    }
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
     public double effectiveness(String enemyType) {
         double effectiveness = 1;
         return effectiveness;
+    }
+
+    public void takeDamage(int damage) {
+        hp -= damage;
     }
     
     @Override
