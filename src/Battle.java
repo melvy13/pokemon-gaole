@@ -135,7 +135,7 @@ public class Battle {
 
 	// Deal damage
     private void dealDamage(String attacker) {
-        if (attacker == "user") {
+        if (attacker.equals("user")) {
             System.out.printf("%s: %d HP ; %s: %d HP\n", wild1.getName(), wild1.getHp(), wild2.getName(), wild2.getHp());
             System.out.printf("Your %s & %s attacked!\n", pokemon1.getName(), pokemon2.getName());
             wild1.takeDamage(calculateDamage(pokemon1, wild1));
@@ -148,7 +148,7 @@ public class Battle {
             System.out.printf("%s: %d HP ; %s: %d HP\n", wild1.getName(), wild1.getHp(), wild2.getName(), wild2.getHp());
         }
 
-        else if (attacker == "enemy") {
+        else if (attacker.equals("enemy")) {
             System.out.printf("%s: %d HP ; %s: %d HP\n", pokemon1.getName(), pokemon1.getHp(), pokemon2.getName(), pokemon2.getHp());
             System.out.printf("The wild %s & %s attacked!\n", wild1.getName(), wild2.getName());
             pokemon1.takeDamage(calculateDamage(wild1, pokemon1));
