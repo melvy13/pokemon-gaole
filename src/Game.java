@@ -21,11 +21,16 @@ public class Game {
     GroundType sandshrew = new GroundType("Sandshrew", 70, 45, 58);
     GroundType nidorina = new GroundType("Nidorina", 118, 60, 65);
     GroundType sandslash = new GroundType("Sandslash", 143, 90, 100);
-
     Pokemon[] grade1 = {chimchar, piplup, rowlet, shinx, sandshrew};
     Pokemon[] grade2 = {charmeleon, poliwhirl, bayleef, luxio, nidorina};
     Pokemon[] grade3 = {blaziken, blastoise, torterra, luxray, sandslash};
     Pokemon[] grade4 = {greninja};
+
+	PokeBall pokeball = new PokeBall("Poke Ball", 1);
+	PokeBall greatball = new PokeBall("Great Ball", 1.5);
+	PokeBall ultraball = new PokeBall("Ultra Ball", 2);
+	PokeBall masterball = new PokeBall("Master Ball", 100);
+	PokeBall[] ballList = {pokeball, greatball, ultraball, masterball};
 
     public static ArrayList<Pokemon> pool = new ArrayList<Pokemon>(); 
 	
@@ -33,9 +38,10 @@ public class Game {
     Scanner input = new Scanner(System.in);
     Player player = new Player();
     Battle battle = new Battle();
+	Database DB = new Database();
 
 	// Grade1 = Level 30 ; Grade2 = Level 40 ; Grade3 = Level 50 ; Grade4 = Level 60
-	public void setPokemonLevel() {
+	private void setPokemonLevel() {
 		for (Pokemon i : grade1) {
 			i.setLevel(30);
 		}
@@ -57,7 +63,7 @@ public class Game {
     // If Grade1 Pokemon is chosen -> Pool = Grade1 + Grade2
     // If Grade2 Pokemon is chosen -> Pool = Grade1 + Grade2 + Grade3
     // If Grade3 Pokemon is chosen -> Pool = Grade2 + Grade3 + Grade4
-    public void setPokemonPool() {
+    private void setPokemonPool() {
         int i1 = rand.nextInt(grade1.length);
         int i2 = rand.nextInt(grade2.length);
         int i3 = rand.nextInt(grade3.length);
@@ -69,7 +75,7 @@ public class Game {
 
         if (choice == 1) {
             System.out.printf("You have chosen %s!\n", grade1[i1].getName());
-            // add grade1[i1] into player Pokemons list
+            DB.addPokemon(grade1[i1]);
             for (Pokemon i : grade1) {
                 pool.add(i);
             }
@@ -81,7 +87,7 @@ public class Game {
 
         else if (choice == 2) {
             System.out.printf("You have chosen %s!\n", grade2[i2].getName());
-            // add grade2[i2] into player Pokemons disklist
+            DB.addPokemon(grade2[i2]);
             for (Pokemon i : grade1) {
                 pool.add(i);
             }
@@ -97,7 +103,7 @@ public class Game {
 
         else if (choice == 3) {
             System.out.printf("You have chosen %s!\n", grade3[i3].getName());
-            // add grade3[i3] into player Pokemons disklist
+            DB.addPokemon(grade3[i3]);
             for (Pokemon i : grade2) {
                 pool.add(i);
             }
@@ -112,11 +118,66 @@ public class Game {
         }
     }
 
+	// Generate a random Pokeball and throw at one of the wild pokemons to catch it
+	private void catchPokemon() {
+		double catchRate;
+		Pokemon toAdd = null;
+		int level = 30;
+		int i = rand.nextInt(ballList.length);
+		System.out.printf("A %s is generated!\n", ballList[i]);
+		catchRate = ballList[i].getCatchRate();
+		System.out.printf("[1] %s\n[2] %s\n", battle.getWild1(), battle.getWild2());
+		System.out.println("Throw on which Pokemon?: ");
+		int choice = input.nextInt();
+
+		if (choice == 1) {
+			toAdd = battle.getWild1();
+			level = battle.getWild1().getLevel();
+		} else if (choice == 2) {
+			toAdd = battle.getWild2();
+			level = battle.getWild2().getLevel();
+		}
+
+		switch (level) {
+			case 30:
+				catchRate *= 60; // Grade1: Pokeball 60%, GreatBall 90%, UltraBall 100%
+				break;
+			case 40:
+				catchRate *= 45; // Grade2: Pokeball 45%, GreatBall 67.5%, UltraBall 90%
+				break;
+			case 50:
+				catchRate *= 30; // Grade3: Pokeball 30%, GreatBall 45%, UltraBall 60%
+				break;
+			case 60:
+				catchRate *= 20; // Grade4: Pokeball 20%, Greatball 30%, UltraBall 40%
+				break;
+		}
+
+		int randomNo = rand.nextInt(1,101);
+		System.out.println(randomNo);
+		if (randomNo <= catchRate) {
+			System.out.println("You have successfully caught the Pokemon!");
+			DB.addPokemon(toAdd);
+		}
+
+		else {
+			System.out.println("Oh no! The Pokemon escaped!");
+		}
+	}
+
+	// Game flow
 	public void startGame() {
+		setPokemonLevel(); // Initialise Pokemon levels
+		DB.loadDB(); // Load player database
+		
 		System.out.println("--------------------------------");
 		System.out.println("   Welcome to Pokémon Ga-Olé!   ");
 		System.out.println("    \"Battle and Catch\" mode    ");
 		System.out.println("--------------------------------\n");
+
+		System.out.print("Enter your User ID: ");
+		int playerid = input.nextInt();
+		DB.setPlayerID(playerid);
 
 		System.out.println("\033[1mCatch Time!\033[0m");
 		setPokemonPool();
@@ -125,7 +186,7 @@ public class Game {
 		battle.startBattle();
 
 		System.out.println("\033[1mCatch Pokémon!\033[0m");
-		// Catching
+		catchPokemon();
 
 		System.out.println("\033[1mCheck Your Results!\033[0m");
 		// Calculate score
