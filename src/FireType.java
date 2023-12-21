@@ -11,11 +11,11 @@ public class FireType extends Pokemon {
 
     public double effectiveness(String enemyType) {
         double effectiveness = 1;
-        if (enemyType == "Water" || enemyType == "Ground") {
+        if (enemyType.equals("Water") || enemyType.equals("Ground")) {
             effectiveness = 2;
         }
 
-        else if (enemyType == "Fire" || enemyType == "Grass" ) {
+        else if (enemyType.equals("Fire") || enemyType.equals("Grass") ) {
             effectiveness = 0.5;
         }
 
