@@ -38,13 +38,15 @@ public class Game {
 	PokeBall masterball = new PokeBall("Master Ball", 100);
 	PokeBall[] ballList = {pokeball, greatball, ultraball, masterball};
 
-	// Initialising players with their list of Pokemons
-	Player p1 = new Player(new ArrayList<>(Arrays.asList(greninja, pikachu, garchomp)));
-	Player p2 = new Player();
-	Player player = p1; // temporary
+	// Initialising all players with their list of Pokemons
+	Player p1 = new Player(1, new ArrayList<>(Arrays.asList(greninja, pikachu, garchomp)));
+	Player p2 = new Player(2, new ArrayList<>(Arrays.asList(chimchar)));
+	Player p3 = new Player(3);
+	Player p4 = new Player(4, new ArrayList<>(Arrays.asList(rowlet, bayleef, blastoise, pikachu)));
+	Player[] playerList = {p1, p2, p3, p4};
 
-	// Pokemon pool (The Pokemons that may appear in battle)
-    public static ArrayList<Pokemon> pool = new ArrayList<Pokemon>();
+	public static Player player; // The player playing the game when it is running
+    public static ArrayList<Pokemon> pool = new ArrayList<Pokemon>(); // Pokemon pool (The Pokemons that may appear in battle)
 
     Random rand = new Random();
     Scanner input = new Scanner(System.in);
@@ -185,6 +187,21 @@ public class Game {
 		System.out.println("    \"Battle and Catch\" mode    ");
 		System.out.println("--------------------------------\n");
 
+		while (player == null) {
+			System.out.print("Please type in your playerID: ");
+			int id = input.nextInt();
+			for (Player i : playerList) {
+				if (i.getPlayerID() == id) {
+					player = i;
+					break;
+				}
+			}
+
+			if (player == null) {
+				System.out.println("PlayerID not found!");
+			}
+		}
+		
 		while (true) {
 			System.out.println("\033[1mCatch Time!\033[0m");
 			setPokemonPool();
