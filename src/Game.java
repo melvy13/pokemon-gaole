@@ -49,6 +49,7 @@ public class Game {
     Random rand = new Random();
     Scanner input = new Scanner(System.in);
     Battle battle = new Battle();
+	GaoleMedal gaolemedal = new GaoleMedal();
 
 	// Setting all Pokemons' levels - Grade1 = Level 30 ; Grade2 = Level 40 ; Grade3 = Level 50 ; Grade4 = Level 60
 	private void setPokemonLevel() {
@@ -171,6 +172,7 @@ public class Game {
 
 		else {
 			System.out.println("Oh no! The Pokemon escaped!");
+			gaolemedal.addToRanAwayList(toAdd);
 		}
 	}
 
@@ -183,20 +185,33 @@ public class Game {
 		System.out.println("    \"Battle and Catch\" mode    ");
 		System.out.println("--------------------------------\n");
 
-		System.out.println("\033[1mCatch Time!\033[0m");
-		setPokemonPool();
-		
-		System.out.println("\n\033[1mDepart For Battle!\033[0m");
-		battle.startBattle(player.getPokemonsOwned());
+		while (true) {
+			System.out.println("\033[1mCatch Time!\033[0m");
+			setPokemonPool();
+			
+			System.out.println("\n\033[1mDepart For Battle!\033[0m");
+			battle.startBattle(player.getPokemonsOwned());
+	
+			if (battle.getResults().equals("win")) {
+				System.out.println("\033[1mCatch Pokémon!\033[0m");
+				catchPokemon();			
+			}
+	
+			System.out.println("\033[1mCheck Your Results!\033[0m");
+			// Calculate score
+	
+			System.out.println("\033[1mGa-Olé Medals\033[0m");
+			gaolemedal.earnGaoleMedal();
+			System.out.printf("You currently have %d Ga-Olé medals!\n", gaolemedal.getGaoleMedals());
 
-		System.out.println("\033[1mCatch Pokémon!\033[0m");
-		catchPokemon();
-
-		System.out.println("\033[1mCheck Your Results!\033[0m");
-		// Calculate score
-
-		System.out.println("\033[1mGa-Olé Medals\033[0m");
-		// Gaole Medals
+			System.out.println("\nPlay again? Enter [0] to exit game and any other key to continue.");
+			String playAgain = input.next();
+			if (playAgain.equals("0")) {
+				System.out.println("Thank you for playing!");
+				break;
+			} else {
+				continue;
+			}
+		}
 	}
 }
-
