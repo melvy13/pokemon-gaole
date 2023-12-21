@@ -170,6 +170,11 @@ public class Battle {
         convertNegativeHp(defender);
     }
 
+     private void printDamageResults(Pokemon first, Pokemon second) {
+        System.out.printf("%s: %d HP ; %s: %d HP\n", first.getName(), first.getHp(), second.getName(), second.getHp());
+        System.out.printf("The wild %s & %s took damage!\n", wild1.getName(), wild2.getName());
+    }
+
   // Convert HP to 0 if Pokemon HP reaches below 0
 private void convertNegativeHp(Pokemon p) {
     if (p.getHp() < 0) {
