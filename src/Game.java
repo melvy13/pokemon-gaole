@@ -136,7 +136,7 @@ public class Game {
 		int i = rand.nextInt(ballList.length);
 		System.out.printf("A %s is generated!\n", ballList[i]);
 		catchRate = ballList[i].getCatchRate();
-		System.out.printf("[1] %s\n[2] %s\n", battle.getWild1(), battle.getWild2());
+		System.out.printf("[1] %s\n[2] %s\n", battle.getWild1().getName(), battle.getWild2().getName());
 		System.out.println("Throw on which Pokemon?: ");
 		int choice = input.nextInt();
 
@@ -165,8 +165,8 @@ public class Game {
 
 		int randomNo = rand.nextInt(1,101);
 		if (randomNo <= catchRate) {
-			System.out.println("You have successfully caught the Pokemon!");
-			// add toAdd into player Pokemons list
+			System.out.printf("You have successfully caught %s!\n", toAdd.getName());
+			player.getPokemonsOwned().add(toAdd);
 		}
 
 		else {
