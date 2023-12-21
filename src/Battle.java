@@ -7,18 +7,37 @@ public class Battle {
     private Pokemon pokemon2;
     private Pokemon wild1;
     private Pokemon wild2;
-    private Player player;
     Random rand = new Random();
     Scanner input = new Scanner(System.in);
 	
     private ArrayList<Pokemon> pool = Game.pool;
 
+	public Pokemon getWild1() {
+        return wild1;
+    }
+
+    public Pokemon getWild2() {
+        return wild2;
+    }
+	
     // Battle flow
-    public void startBattle() {
+    public void startBattle(ArrayList<Pokemon> playerPokemons) {
         displayWildPokemons();
-        choosePokemons();
-        String attacker = battleSequence();
-        dealDamage(attacker);
+        choosePokemons(playerPokemons);
+        while (true) {
+            String attacker = battleSequence();
+            dealDamage(attacker);
+
+            if (wild1.getHp() == 0 && wild2.getHp() == 0) {
+                System.out.println("You win!");
+                break;
+            } 
+            
+            else if (pokemon1.getHp() == 0 && pokemon2.getHp() == 0) {
+                System.out.println("You lose!");
+                break;
+            }
+        }
     }
 
     // Display 2 random wild Pokemons from pool
@@ -34,9 +53,7 @@ public class Battle {
     }
 
     // Choose 2 Pokemons from player Pokemons list (or rent a Pokemon)
-    private void choosePokemons() {
-        ArrayList<Pokemon> playerPokemons = new ArrayList<>();
-        // Get player Pokemons list - Store in ArrayList
+    private void choosePokemons(ArrayList<Pokemon> playerPokemons) {
         System.out.println("You currently have these Pokemons!: ");
         for (int i = 0; i < playerPokemons.size(); i++) {
             System.out.printf("[%d] %s\n", i+1, playerPokemons.get(i));
@@ -46,7 +63,7 @@ public class Battle {
         if (playerPokemons.size() < 2) {
             System.out.println("You don't have enough Pokemons! You need to rent a Pokemon!");
             int rent = rand.nextInt(pool.size());
-            System.out.printf("You have rented a %s!\n", pool.get(rent).getName());
+            System.out.printf("You have randomly rented a %s!\n", pool.get(rent).getName());
 			System.out.printf("You sent out %s & %s!\n", playerPokemons.get(0).getName(), pool.get(rent).getName());
             pokemon1 = playerPokemons.get(0);
             pokemon2 = pool.get(rent);
@@ -70,6 +87,7 @@ public class Battle {
     // 3. User input a random number
     // 4. Whoever's random number is closer to the hidden number will attack first
     private String battleSequence() {
+		System.out.println("\nA hidden number from 1-100 is generated. Whoever's input number is closer to the hidden number will attack!");
         int hiddenNo = rand.nextInt(1, 101);
         System.out.print("Input a random number from 1-100!: ");
         int userNo = input.nextInt();
@@ -113,5 +131,41 @@ public class Battle {
 
         double damage = ((0.4 * level + 2) * att / def + 2) * effectiveness * rand.nextDouble(0.85, 1.00);
         return (int)damage;
+    }
+
+	// Deal damage
+    private void dealDamage(String attacker) {
+        if (attacker == "user") {
+            System.out.printf("%s: %d HP ; %s: %d HP\n", wild1.getName(), wild1.getHp(), wild2.getName(), wild2.getHp());
+            System.out.printf("Your %s & %s attacked!\n", pokemon1.getName(), pokemon2.getName());
+            wild1.takeDamage(calculateDamage(pokemon1, wild1));
+            wild2.takeDamage(calculateDamage(pokemon1, wild2));
+            wild1.takeDamage(calculateDamage(pokemon2, wild1));
+            wild2.takeDamage(calculateDamage(pokemon2, wild2));
+            convertNegativeHp(wild1);
+            convertNegativeHp(wild2);
+            System.out.printf("The wild %s & %s took damage!\n", wild1.getName(), wild2.getName());
+            System.out.printf("%s: %d HP ; %s: %d HP\n", wild1.getName(), wild1.getHp(), wild2.getName(), wild2.getHp());
+        }
+
+        else if (attacker == "enemy") {
+            System.out.printf("%s: %d HP ; %s: %d HP\n", pokemon1.getName(), pokemon1.getHp(), pokemon2.getName(), pokemon2.getHp());
+            System.out.printf("The wild %s & %s attacked!\n", wild1.getName(), wild2.getName());
+            pokemon1.takeDamage(calculateDamage(wild1, pokemon1));
+            pokemon2.takeDamage(calculateDamage(wild1, pokemon2));
+            pokemon1.takeDamage(calculateDamage(wild2, pokemon1));
+            pokemon2.takeDamage(calculateDamage(wild2, pokemon2));
+            convertNegativeHp(pokemon1);
+            convertNegativeHp(pokemon2);
+            System.out.printf("Your %s & %s took damage!\n", pokemon1.getName(), pokemon2.getName());
+            System.out.printf("%s: %d HP ; %s: %d HP\n", pokemon1.getName(), pokemon1.getHp(), pokemon2.getName(), pokemon2.getHp());
+        }
+    }
+
+    // Convert HP to 0 if Pokemon HP reaches below 0
+    private void convertNegativeHp(Pokemon p) {
+        if (p.getHp() < 0) {
+            p.setHp(0);
+        }
     }
 }
