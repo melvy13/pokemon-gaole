@@ -3,20 +3,20 @@
 import java.util.ArrayList;
 
 public class Player {
-    private ArrayList<Pokemon> pokemonCaught = new ArrayList<Pokemon>();
+    private ArrayList<Pokemon> pokemonsOwned = new ArrayList<Pokemon>();
 
     public Player() {
     }
 
-    public Player(ArrayList<Pokemon> pokemonCaught) {
-        this.pokemonCaught = pokemonCaught;
+    public Player(ArrayList<Pokemon> pokemonsOwned) {
+        this.pokemonsOwned = pokemonsOwned;
     }
 
-    public ArrayList<Pokemon> getPokemonCaught() {
-        return pokemonCaught;
+    public ArrayList<Pokemon> getPokemonsOwned() {
+        return pokemonsOwned;
     }
 
-    public void setPokemonCaught(ArrayList<Pokemon> pokemonCaught) {
-        this.pokemonCaught = pokemonCaught;
+    public void setPokemonsOwned(ArrayList<Pokemon> pokemonsOwned) {
+        this.pokemonsOwned = pokemonsOwned;
     }
 }
