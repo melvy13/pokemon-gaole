@@ -7,6 +7,7 @@ public class Battle {
     private Pokemon pokemon2;
     private Pokemon wild1;
     private Pokemon wild2;
+    private String results;
     Random rand = new Random();
     Scanner input = new Scanner(System.in);
 	
@@ -19,20 +20,28 @@ public class Battle {
     public Pokemon getWild2() {
         return wild2;
     }
+
+    public String getResults() {
+        return results;
+    }
 	
-    // Battle flow
+    // Battle flow - assign results as "win" or "lose"
     public void startBattle(ArrayList<Pokemon> playerPokemons) {
         displayWildPokemons();
         choosePokemons(playerPokemons);
         while (true) {
             String attacker = battleSequence();
-            dealDamage(attacker);
+            attack(attacker);
 
             if (wild1.getHp() == 0 && wild2.getHp() == 0) {
+                System.out.println("Both wild pokemons have fainted!");
                 System.out.println("You win!\n");
+                results = "win";
                 break;
             } else if (pokemon1.getHp() == 0 && pokemon2.getHp() == 0) {
+                System.out.println("Your pokemons have fainted!");
                 System.out.println("You lose!\n");
+                results = "lose";
                 break;
             }
         }
@@ -122,67 +131,51 @@ public class Battle {
 
 	// Calculate damage
 	private int calculateDamage(Pokemon attacker, Pokemon defender) {
-	int att = attacker.getAtt();
-	int def = defender.getDef();
-	int level = attacker.getLevel();
-	double effectiveness = defender.effectiveness(attacker.getType());       
-	
-	double damage = ((0.4 * level + 2) * att / def + 2) * effectiveness * rand.nextDouble(0.85, 1.00);
-	return (int)damage;
+		int att = attacker.getAtt();
+		int def = defender.getDef();
+		int level = attacker.getLevel();
+		double effectiveness = defender.effectiveness(attacker.getType());       
+		
+		double damage = ((0.4 * level + 2) * att / def + 2) * effectiveness * rand.nextDouble(0.85, 1.00);
+		return (int)damage;
     }
 
-	// Call respective methods for whoever is attacking
-    private void dealDamage(String attacker) {
+	private void attack(String attacker) {
         if (attacker.equals("user")) {
-            playerAttackWild();
+            attack(pokemon1, pokemon2, wild1, wild2);
         } else if (attacker.equals("enemy")) {
-            wildAttackPlayer();
+            attack(wild1, wild2, pokemon1, pokemon2);
         }
     }
 
-    // Dealing damage to wild Pokemons
-    private void playerAttackWild() {
-        System.out.printf("%s: %d HP ; %s: %d HP\n", wild1.getName(), wild1.getHp(), wild2.getName(), wild2.getHp());
-        System.out.printf("Your %s & %s attacked!\n", pokemon1.getName(), pokemon2.getName());
-
-        dealAttackDamage(pokemon1, wild1);
-        dealAttackDamage(pokemon2, wild1);
-        dealAttackDamage(pokemon1, wild2);
-        dealAttackDamage(pokemon2, wild2);
-
-        printDamageResults(wild1, wild2);
+	// Attacking
+    private void attack(Pokemon att1, Pokemon att2, Pokemon def1, Pokemon def2) {
+        System.out.printf("%s: %d HP ; %s: %d HP\n", def1.getName(), def1.getHp(), def2.getName(), def2.getHp());
+        if (att1.getHp() > 0 && att2.getHp() > 0) {
+            System.out.printf("%s & %s attacked!\n", att1.getName(), att2.getName());
+            dealAttackDamage(att1, def1);
+            dealAttackDamage(att2, def1);
+            dealAttackDamage(att1, def2);
+            dealAttackDamage(att2, def2);
+        } else if (att1.getHp() == 0) {
+            System.out.printf("%s attacked!\n", att2.getName());
+            dealAttackDamage(att2, def1);
+            dealAttackDamage(att2, def2);
+        } else if (att2.getHp() == 0) {
+            System.out.printf("%s attacked!\n", att1.getName());
+            dealAttackDamage(att1, def1);
+            dealAttackDamage(att1, def2);
+        }
+        
+        System.out.printf("%s: %d HP ; %s: %d HP\n", def1.getName(), def1.getHp(), def2.getName(), def2.getHp());
     }
 
-	// Taking damage from wild Pokemons
-    private void wildAttackPlayer() {
-        System.out.printf("%s: %d HP ; %s: %d HP\n", pokemon1.getName(), pokemon1.getHp(), pokemon2.getName(), pokemon2.getHp());
-        System.out.printf("The wild %s & %s attacked!\n", wild1.getName(), wild2.getName());
-
-        dealAttackDamage(wild1, pokemon1);
-        dealAttackDamage(wild2, pokemon1);
-        dealAttackDamage(wild1, pokemon2);
-        dealAttackDamage(wild2, pokemon2);
-
-        printDamageResults(pokemon1, pokemon2);
-    }
-
-	// Deal damage to pokemon - if HP < 0 then convert to 0
+    // Deal damage to pokemon - Convert HP to 0 if it goes below 0
     private void dealAttackDamage(Pokemon attacker, Pokemon defender) {
         int damage = calculateDamage(attacker, defender);
         defender.takeDamage(damage);
-        convertNegativeHp(defender);
-    }
-
-	// Show HP after damage
-    private void printDamageResults(Pokemon first, Pokemon second) {
-        System.out.printf("%s & %s took damage!\n", first.getName(), second.getName());
-        System.out.printf("%s: %d HP ; %s: %d HP\n", first.getName(), first.getHp(), second.getName(), second.getHp());
-    }
-
-    // Convert HP to 0 if Pokemon HP reaches below 0
-    private void convertNegativeHp(Pokemon p) {
-        if (p.getHp() < 0) {
-            p.setHp(0);
-        }
+        if (defender.getHp() <= 0) {
+            defender.setHp(0);
+        };
     }
 }
