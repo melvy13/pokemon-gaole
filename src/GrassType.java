@@ -11,11 +11,11 @@ public class GrassType extends Pokemon {
 
     public double effectiveness(String enemyType) {
         double effectiveness = 1;
-        if (enemyType == "Fire") {
+        if (enemyType.equals("Fire")) {
             effectiveness = 2;
         }
 
-        else if (enemyType == "Water" || enemyType == "Grass" || enemyType == "Electric" || enemyType == "Ground") {
+        else if (enemyType.equals("Water") || enemyType.equals("Grass") || enemyType.equals("Electric") || enemyType.equals("Ground")) {
             effectiveness = 0.5;
         }
 
