@@ -11,11 +11,11 @@ public class ElectricType extends Pokemon {
 
     public double effectiveness(String enemyType) {
         double effectiveness = 1;
-        if (enemyType == "Ground") {
+        if (enemyType.equals("Ground")) {
             effectiveness = 2;
         }
 
-        else if (enemyType == "Electric") {
+        else if (enemyType.equals("Electric")) {
             effectiveness = 0.5;
         }
 
