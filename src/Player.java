@@ -1,14 +1,15 @@
-// to be updated
-
 import java.util.ArrayList;
 
 public class Player {
     private ArrayList<Pokemon> pokemonsOwned = new ArrayList<Pokemon>();
+    private int playerID;
 
-    public Player() {
+    public Player(int playerID) {
+        this.playerID = playerID;
     }
 
-    public Player(ArrayList<Pokemon> pokemonsOwned) {
+    public Player(int playerID, ArrayList<Pokemon> pokemonsOwned) {
+        this.playerID = playerID;
         this.pokemonsOwned = pokemonsOwned;
     }
 
@@ -18,5 +19,13 @@ public class Player {
 
     public void setPokemonsOwned(ArrayList<Pokemon> pokemonsOwned) {
         this.pokemonsOwned = pokemonsOwned;
+    }
+
+    public int getPlayerID() {
+        return playerID;
+    }
+
+    public void setPlayerID(int playerID) {
+        this.playerID = playerID;
     }
 }
