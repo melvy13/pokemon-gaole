@@ -11,11 +11,11 @@ public class WaterType extends Pokemon {
 
     public double effectiveness(String enemyType) {
         double effectiveness = 1;
-        if (enemyType == "Grass" || enemyType == "Electric") {
+        if (enemyType.equals("Grass") || enemyType.equals("Electric")) {
             effectiveness = 2;
         }
 
-        else if (enemyType == "Fire" || enemyType == "Water") {
+        else if (enemyType.equals("Fire") || enemyType.equals("Water")) {
             effectiveness = 0.5;
         }
 
