@@ -43,7 +43,9 @@ public class Game {
 	Player p2 = new Player(2, new ArrayList<>(Arrays.asList(chimchar)));
 	Player p3 = new Player(3);
 	Player p4 = new Player(4, new ArrayList<>(Arrays.asList(rowlet, bayleef, blastoise, pikachu)));
-	Player[] playerList = {p1, p2, p3, p4};
+	Player p5 = new Player(5, new ArrayList<>(Arrays.asList(charmeleon, luxray)));
+	Player p6 = new Player(6, new ArrayList<>(Arrays.asList(greninja, infernape, sandslash)));
+	Player[] playerList = {p1, p2, p3, p4, p5, p6};
 
 	public static Player player; // The player playing the game when it is running
     public static ArrayList<Pokemon> pool = new ArrayList<Pokemon>(); // Pokemon pool (The Pokemons that may appear in battle)
@@ -52,6 +54,7 @@ public class Game {
     Scanner input = new Scanner(System.in);
     Battle battle = new Battle();
 	GaoleMedal gaolemedal = new GaoleMedal();
+	Database DB = new Database();
 
 	// Setting all Pokemons' levels - Grade1 = Level 30 ; Grade2 = Level 40 ; Grade3 = Level 50 ; Grade4 = Level 60
 	private void setPokemonLevel() {
@@ -180,7 +183,8 @@ public class Game {
 
 	// Game flow
 	public void startGame() {
-		setPokemonLevel(); // Set Pokemon levels
+		setPokemonLevel();
+		DB.loadDB();
 		
 		System.out.println("--------------------------------");
 		System.out.println("   Welcome to Pokémon Ga-Olé!   ");
@@ -215,20 +219,25 @@ public class Game {
 			}
 	
 			System.out.println("\033[1mCheck Your Results!\033[0m");
-			// Calculate score
+			DB.addScores(player.getPlayerID(), 50); // add scores DB.addScores(int playerID, int scoresToAdd)
 	
-			System.out.println("\033[1mGa-Olé Medals\033[0m");
+			System.out.println("\n\033[1mGa-Olé Medals\033[0m");
 			gaolemedal.earnGaoleMedal();
 			System.out.printf("You currently have %d Ga-Olé medals!\n", gaolemedal.getGaoleMedals());
 
 			System.out.println("\nPlay again? Enter [0] to exit game and any other key to continue.");
 			String playAgain = input.next();
 			if (playAgain.equals("0")) {
-				System.out.println("Thank you for playing!");
 				break;
 			} else {
 				continue;
 			}
 		}
+
+		DB.displayTop5scores();
+		System.out.println("\nYour player details: ");
+		DB.displayPlayerGMedal(player.getPlayerID());
+		DB.addGaoleMedals(player.getPlayerID(), 30); // add gaole medals DB.addGaoleMedals(int targetPlayerID, int medalsToAdd)
+		DB.storeDB();
 	}
 }
