@@ -1,13 +1,15 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
-	
-    // Initialising all Pokemons in the game
-    FireType chimchar = new FireType("Chimchar", 81, 49, 38);
+
+	// Initialising all Pokemons in the game
+	FireType chimchar = new FireType("Chimchar", 81, 49, 38);
     FireType charmeleon = new FireType("Charmeleon", 100, 72, 53);
     FireType blaziken = new FireType("Blaziken", 137, 122, 73);
+	FireType infernape = new FireType("Infernape", 123, 135, 98);
     WaterType piplup = new WaterType("Piplup", 88, 51, 45);
     WaterType poliwhirl = new WaterType("Poliwhirl", 104, 46, 58);
     WaterType blastoise = new WaterType("Blastoise", 133, 86, 101);
@@ -15,32 +17,40 @@ public class Game {
     GrassType rowlet = new GrassType("Rowlet", 90, 42, 35);
     GrassType bayleef = new GrassType("Bayleef", 104, 58, 74);
     GrassType torterra = new GrassType("Torterra", 155, 80, 100);
-    ElectricType shinx = new ElectricType("Shinx", 76, 42, 33);
-    ElectricType luxio = new ElectricType("Luxio", 107, 74, 69);
-    ElectricType luxray = new ElectricType("Luxray", 136, 103, 74);
-    GroundType sandshrew = new GroundType("Sandshrew", 70, 45, 58);
-    GroundType nidorina = new GroundType("Nidorina", 118, 60, 65);
-    GroundType sandslash = new GroundType("Sandslash", 143, 90, 100);
+	GrassType venusaur = new GrassType("Venusaur", 159, 109, 89);
+	ElectricType shinx = new ElectricType("Shinx", 76, 42, 33);
+	ElectricType luxio = new ElectricType("Luxio", 107, 74, 69);
+	ElectricType luxray = new ElectricType("Luxray", 136, 103, 74);
+	ElectricType pikachu = new ElectricType("Pikachu", 123, 130, 78);
+	GroundType sandshrew = new GroundType("Sandshrew", 70, 45, 58);
+	GroundType nidorina = new GroundType("Nidorina", 118, 60, 65);
+	GroundType sandslash = new GroundType("Sandslash", 143, 90, 100);
+	GroundType garchomp = new GroundType("Garchomp", 154, 136, 105);
     Pokemon[] grade1 = {chimchar, piplup, rowlet, shinx, sandshrew};
     Pokemon[] grade2 = {charmeleon, poliwhirl, bayleef, luxio, nidorina};
     Pokemon[] grade3 = {blaziken, blastoise, torterra, luxray, sandslash};
-    Pokemon[] grade4 = {greninja};
+    Pokemon[] grade4 = {infernape, greninja, venusaur, pikachu, garchomp};
 
+	// Initialising all Pokeballs in the game
 	PokeBall pokeball = new PokeBall("Poke Ball", 1);
 	PokeBall greatball = new PokeBall("Great Ball", 1.5);
 	PokeBall ultraball = new PokeBall("Ultra Ball", 2);
 	PokeBall masterball = new PokeBall("Master Ball", 100);
 	PokeBall[] ballList = {pokeball, greatball, ultraball, masterball};
 
-    public static ArrayList<Pokemon> pool = new ArrayList<Pokemon>(); 
-	
+	// Initialising players with their list of Pokemons
+	Player p1 = new Player(new ArrayList<>(Arrays.asList(greninja, pikachu, garchomp)));
+	Player p2 = new Player();
+	Player player = p1; // temporary
+
+	// Pokemon pool (The Pokemons that may appear in battle)
+    public static ArrayList<Pokemon> pool = new ArrayList<Pokemon>();
+
     Random rand = new Random();
     Scanner input = new Scanner(System.in);
-    Player player = new Player();
     Battle battle = new Battle();
-	Database DB = new Database();
 
-	// Grade1 = Level 30 ; Grade2 = Level 40 ; Grade3 = Level 50 ; Grade4 = Level 60
+	// Setting all Pokemons' levels - Grade1 = Level 30 ; Grade2 = Level 40 ; Grade3 = Level 50 ; Grade4 = Level 60
 	private void setPokemonLevel() {
 		for (Pokemon i : grade1) {
 			i.setLevel(30);
@@ -59,7 +69,7 @@ public class Game {
 		}
 	}
 	
-    // Display 3 random Pokemons from Grade 1-3 each, let user choose 1 and determine the Pokemon pool (The Pokemons that may appear in battle later)
+    // Display 3 random Pokemons from Grade 1-3 each, let user choose 1, add to their pokemonlist and determine the Pokemon pool
     // If Grade1 Pokemon is chosen -> Pool = Grade1 + Grade2
     // If Grade2 Pokemon is chosen -> Pool = Grade1 + Grade2 + Grade3
     // If Grade3 Pokemon is chosen -> Pool = Grade2 + Grade3 + Grade4
@@ -75,7 +85,7 @@ public class Game {
 
         if (choice == 1) {
             System.out.printf("You have chosen %s!\n", grade1[i1].getName());
-            DB.addPokemon(grade1[i1]);
+            player.getPokemonsOwned().add(grade1[i1]);
             for (Pokemon i : grade1) {
                 pool.add(i);
             }
@@ -87,7 +97,7 @@ public class Game {
 
         else if (choice == 2) {
             System.out.printf("You have chosen %s!\n", grade2[i2].getName());
-            DB.addPokemon(grade2[i2]);
+            player.getPokemonsOwned().add(grade2[i2]);
             for (Pokemon i : grade1) {
                 pool.add(i);
             }
@@ -103,7 +113,7 @@ public class Game {
 
         else if (choice == 3) {
             System.out.printf("You have chosen %s!\n", grade3[i3].getName());
-            DB.addPokemon(grade3[i3]);
+            player.getPokemonsOwned().add(grade3[i3]);
             for (Pokemon i : grade2) {
                 pool.add(i);
             }
@@ -154,10 +164,9 @@ public class Game {
 		}
 
 		int randomNo = rand.nextInt(1,101);
-		System.out.println(randomNo);
 		if (randomNo <= catchRate) {
 			System.out.println("You have successfully caught the Pokemon!");
-			DB.addPokemon(toAdd);
+			// add toAdd into player Pokemons list
 		}
 
 		else {
@@ -167,23 +176,18 @@ public class Game {
 
 	// Game flow
 	public void startGame() {
-		setPokemonLevel(); // Initialise Pokemon levels
-		DB.loadDB(); // Load player database
+		setPokemonLevel(); // Set Pokemon levels
 		
 		System.out.println("--------------------------------");
 		System.out.println("   Welcome to Pokémon Ga-Olé!   ");
 		System.out.println("    \"Battle and Catch\" mode    ");
 		System.out.println("--------------------------------\n");
 
-		System.out.print("Enter your User ID: ");
-		int playerid = input.nextInt();
-		DB.setPlayerID(playerid);
-
 		System.out.println("\033[1mCatch Time!\033[0m");
 		setPokemonPool();
 		
 		System.out.println("\n\033[1mDepart For Battle!\033[0m");
-		battle.startBattle();
+		battle.startBattle(player.getPokemonsOwned());
 
 		System.out.println("\033[1mCatch Pokémon!\033[0m");
 		catchPokemon();
