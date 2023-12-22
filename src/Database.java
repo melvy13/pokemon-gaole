@@ -83,7 +83,7 @@ public class Database {
 			output.close();
 	}
 
-
+    
 	public void addScores(int playerID, int scoresToAdd) {
 		
 		// Find the player with the given ID
@@ -107,7 +107,7 @@ public class Database {
             // Update the player's record in the ArrayList
             player.set(player.indexOf(playerToUpdate), playerToUpdate);
 
-            System.out.println("Scores added successfully. New scores: " + newScores);
+            System.out.println("Scores added to database successfully. New scores: " + newScores);
         } else {
             System.out.println("Player not found!"); // If player is not found
         }
@@ -126,11 +126,12 @@ public class Database {
         }
 	}
 	
-	public void displayPlayerGMedal(int targetPlayerID) {
+	public void displayPlayerInfo(int targetPlayerID) {
 		boolean foundPlayer = false;
 		for (PlayerRecord currentPlayer : player) {
 	        if (currentPlayer.getPlayerID() == targetPlayerID) {
-	            System.out.println("Player ID: " + currentPlayer.getPlayerID() + ", Gaole Medals: " + currentPlayer.getPlayerGaoleMedal());
+	            System.out.printf("Player ID: %d  Name: %s  Score: %d  Gaole Medals: %d\n", 
+				currentPlayer.getPlayerID(), currentPlayer.getPlayerName(), currentPlayer.getPlayerScores(), currentPlayer.getPlayerGaoleMedal());
 	            foundPlayer = true;
 	            break;  // No need to continue looping if the player is found
 	        }
@@ -162,7 +163,10 @@ public class Database {
             // Update the player's record in the ArrayList
             player.set(player.indexOf(playerToUpdate), playerToUpdate);
 
-            System.out.println("Gaole Medals added successfully. New Gaole Medals: " + newMedals);
+			if (currentMedals != newMedals) {
+				System.out.printf("You obtained %d Gaole Medals this round!\n", medalsToAdd);
+				System.out.println("Gaole Medals added successfully. New Gaole Medals: " + newMedals);
+			}
         } else {
             System.out.println("Player not found!"); // If player is not found
         }
