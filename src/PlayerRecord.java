@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 public class PlayerRecord {
 	
@@ -7,7 +6,6 @@ public class PlayerRecord {
 	private String playerName;
 	private int playerScores;
 	private int playerGaoleMedal;
-	private ArrayList <String> playerPokemon = new ArrayList<String>();
 
 	//methods
 	public int getPlayerID() {
@@ -40,14 +38,6 @@ public class PlayerRecord {
 	
 	public void setPlayerGaoleMedal(int PlayerGaoleMedal) {
 		this.playerGaoleMedal = PlayerGaoleMedal;
-	}
-	
-	public ArrayList<String> getPlayerPokemon() {
-		return playerPokemon;
-	}
-	
-	public void setPlayerPokemon(ArrayList<String> PlayerPokemon) {
-		this.playerPokemon = PlayerPokemon;
 	}
 
 }
