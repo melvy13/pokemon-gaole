@@ -204,6 +204,13 @@ public class Game {
 				break;
 		}
 
+		if (player.getMiracleItem() != null) {
+			if (player.getMiracleItem().getName().equals("PokeBall Power")) { // if player has PokeBall Power Miracle Item
+			System.out.println(player.getMiracleItem().use());
+			catchRate *= 1.2;
+			}
+		}
+
 		int randomNo = rand.nextInt(1,101);
 		if (randomNo <= catchRate) {
 			System.out.printf("You have successfully caught %s!\n", toAdd.getName());
@@ -212,7 +219,7 @@ public class Game {
 		}
 
 		else {
-			System.out.println("Oh no! The Pokemon escaped!\n");
+			System.out.println("Oh no! The Pokemon escaped!");
 			gaolemedal.setPokemonRanAway(toAdd);
 			score.updateScoreCatchPokemon(false);
 		}
@@ -244,9 +251,25 @@ public class Game {
 		}
 		
 		while (true) {
-			healAllPokemons();
+			healAllPokemons(); // reset all pokemon's HP
+			pool.clear(); // reset pool
+			
 			System.out.println("\033[1mCatch Time!\033[0m");
 			setPokemonPool();
+
+			if (player.getMiracleItem() != null) {
+				if (player.getMiracleItem().getName().equals("Attack Capsule")) { // if player has Attack Capsule Miracle Item
+					System.out.println(player.getMiracleItem().use());
+					for (Pokemon i : player.getPokemonsOwned()) {
+						i.setAtt((int)(i.getAtt()*1.2));
+					}
+				} else if (player.getMiracleItem().getName().equals("Defense Capsule")) {  // if player has Defense Capsule Miracle Item
+					System.out.println(player.getMiracleItem().use());
+					for (Pokemon i : player.getPokemonsOwned()) {
+						i.setDef((int)(i.getDef()*1.2));
+					}
+				}
+			}
 			
 			System.out.println("\n\033[1mDepart For Battle!\033[0m");
 			battle.startBattle(player.getPokemonsOwned());
@@ -264,8 +287,16 @@ public class Game {
 			DB.addScores(player.getPlayerID(), score.getScore());
 
 			System.out.println("\n\033[1mGa-Olé Medals\033[0m");
-			gaolemedal.earnGaoleMedal();
-			DB.addGaoleMedals(player.getPlayerID(), gaolemedal.getGaoleMedals());
+			gaolemedal.earnGaoleMedal(); // If Pokemon caught - skip ; If Pokemon escaped - Get Gaole Medals
+			DB.addGaoleMedals(player.getPlayerID(), gaolemedal.getGaoleMedals()); // add to database
+			gaolemedal.setGaoleMedals(0); // reset gaole medals count in GaoleMedal class
+
+			boolean getmiracleitem = DB.checkMiracleItem(player.getPlayerID()); // check if eligible to get miracle item
+			if (getmiracleitem) {
+				MiracleItem miracleitem = gaolemedal.MiracleItemChance(); // generate random miracle item
+				player.setMiracleItem(miracleitem);
+				System.out.printf("You received a %s!\n", miracleitem.getName());
+			}
 
 			System.out.println("\nPlay again? Enter [0] to exit game and any other keys to continue.");
 			String playAgain = input.next();
@@ -277,7 +308,7 @@ public class Game {
 			}
 		}
 
-		System.out.println("Your player details: ");
+		System.out.println("\nYour player details: ");
 		DB.displayPlayerInfo(player.getPlayerID());
 		System.out.println();
 		DB.displayTop5scores();
