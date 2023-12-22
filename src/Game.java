@@ -47,7 +47,7 @@ public class Game {
 	Player p6 = new Player(6, new ArrayList<>(Arrays.asList(greninja, infernape, sandslash)));
 	Player[] playerList = {p1, p2, p3, p4, p5, p6};
 
-	public static Player player; // The player playing the game when it is running
+	private Player player; // The player playing the game when it is running
     public static ArrayList<Pokemon> pool = new ArrayList<Pokemon>(); // Pokemon pool (The Pokemons that may appear in battle)
 
     Random rand = new Random();
