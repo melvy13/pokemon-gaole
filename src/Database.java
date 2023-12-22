@@ -171,5 +171,39 @@ public class Database {
             System.out.println("Player not found!"); // If player is not found
         }
     }
+
+	public boolean checkMiracleItem(int targetPlayerID) {
+        // Find the player with the given ID
+        PlayerRecord playerToUpdate = null;
+        for (PlayerRecord playerRecord : player) {
+            if (playerRecord.getPlayerID() == targetPlayerID) {
+                playerToUpdate = playerRecord;
+                break;
+            }
+        }
+
+        // If the player is found, if medals >= 160, minus the Gaole Medals
+        if (playerToUpdate != null) {
+            int currentMedals = playerToUpdate.getPlayerGaoleMedal();
+			int newMedals = currentMedals;
+			if (currentMedals >= 160) {
+				newMedals -= 160;
+			}
+
+            // Update the player's Gaole Medals in the PlayerRecord object
+            playerToUpdate.setPlayerGaoleMedal(newMedals);
+
+            // Update the player's record in the ArrayList
+            player.set(player.indexOf(playerToUpdate), playerToUpdate);
+
+			if (currentMedals != newMedals) {
+				System.out.println("160 Gaole Medals have been converted to a Miracle Item! New Gaole Medals: " + newMedals);
+				return true;
+			}
+        } else {
+            System.out.println("Player not found!"); // If player is not found
+        }
+		return false;
+    }
 	
 }
