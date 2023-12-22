@@ -11,6 +11,10 @@ public class GaoleMedal {
         return gaoleMedals;
     }
 
+    public void setGaoleMedals(int gaoleMedals) {
+        this.gaoleMedals = gaoleMedals;
+    }
+
     public void setPokemonRanAway(Pokemon p) {
         pokemonRanAway = p;
     }
@@ -32,23 +36,16 @@ public class GaoleMedal {
             // Print summary
             System.out.println("Congratulations! You've obtained:");
             System.out.println(goldenChips + " golden chip(s) and " + goldenSands + " golden sand(s)\n");
+
+            // reset values
             pokemonRanAway = null;
             goldenChips = 0;
             goldenSands = 0;
         }
     }
 
-    // check if valid to get Miracle Item after each round of battle
-	public MiracleItem checkMiracleItem() {
-		if (gaoleMedals >= 160) {
-			gaoleMedals -= 160; // Deduct the medals for the item
-            return MiracleItemChance();
-        }
-        return null;
-    }
-
     // Miracle Item Chance!
-	private MiracleItem MiracleItemChance() {
+	public MiracleItem MiracleItemChance() {
         switch (random.nextInt(3)) {
             case 0:
                 return new AttackCapsule();
