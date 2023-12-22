@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Player {
     private ArrayList<Pokemon> pokemonsOwned = new ArrayList<Pokemon>();
     private int playerID;
+    private MiracleItem miracleItem = null;
 
     public Player(int playerID) {
         this.playerID = playerID;
@@ -27,5 +28,13 @@ public class Player {
 
     public void setPlayerID(int playerID) {
         this.playerID = playerID;
+    }
+
+    public MiracleItem getMiracleItem() {
+        return miracleItem;
+    }
+
+    public void setMiracleItem(MiracleItem miracleItem) {
+        this.miracleItem = miracleItem;
     }
 }
