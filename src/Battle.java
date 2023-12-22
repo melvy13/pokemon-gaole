@@ -1,6 +1,7 @@
 import java.util.Random;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 public class Battle {
     private Pokemon pokemon1;
@@ -95,7 +96,13 @@ public class Battle {
                 System.out.println("Invalid options!");
                 continue;
             }
-            
+
+	    catch (InputMismatchException e) {
+                System.out.println("Please enter numbers only!");
+                input.nextLine();
+                continue;
+            }
+		
             break;
         }
         
