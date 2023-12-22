@@ -1,7 +1,7 @@
 
 public class Pokemon {
     protected String name, type;
-    protected int hp, att, def;
+    protected int hp, att, def, level, originalHp;
 
     // Constructors
     public Pokemon() {
@@ -17,6 +17,7 @@ public class Pokemon {
         this.hp = hp;
         this.att = att;
         this.def = def;
+        originalHp = hp;
     }
 
     // Getters & Setters
@@ -65,7 +66,11 @@ public class Pokemon {
     public void takeDamage(int damage) {
         hp -= damage;
     }
-    
+
+    public void fullheal() {
+        hp = originalHp;
+    }
+
     @Override
     public String toString() {
         return String.format("%s [%s] HP: %d Attack: %d Defense: %d", name, type, hp, att, def);
