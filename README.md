@@ -26,11 +26,12 @@
 </ul>
 
 <p>After choosing a player, the first game phase starts - Catch Time!</p>
-<p>3 random Pokémon from the pool of 20 Pokémon (more to be hopefully added in the future) are chosen. Pick one Pokémon to add it into the owned Pokémon list!</p>
+<p>3 random Pokémon from a pool of 20 Pokémon (more to be hopefully added in the future) are chosen. Pick one Pokémon to add it into the owned Pokémon list!</p>
+
+![Catch Time!](resources/catchTime.png)
 
 <p>Now you are ready for battle, the second game phase starts - Depart For Battle!</p>
 <p>Two wild Pokémon will appear. Pick two Pokémon from your list of owned Pokémon to fight them!</p>
-![Catch Time!](resources/catchTime.png)
 <p>Do not worry if you are poor (like me) and do not have enough Pokémon. A random Pokémon will be rented to you to fight them!</p>
 
 ![Depart For Battle!](resources/battle.png)
@@ -41,7 +42,7 @@
 ![RNG](resources/RNG.png)
 
 <p>The computer itself will generate another number, and if this number is closer to the 'hidden number' than yours, the computer (the wild Pokémon) will attack first, and vice versa.</p>
-<p>Whoever that attacks will have their two Pokémon attack the other two at the same time. The total damage done to each Pokémon is calculated using a formula based on type weaknesses and their individual stats.</p>
+<p>Whoever that attacks will have their two Pokémon attack the two opponents at the same time. The total damage done to each Pokémon is calculated using a formula based on type weaknesses and their individual stats.</p>
 
 <p>Winning the RNG:</p>
 
@@ -51,15 +52,15 @@
 
 ![Losing the RNG](resources/loseRNG.png)
 
-<p>If 2 of the wild Pokémon faints (0 HP), you win! You will then move on to the third game phase - Catch Pokémon!</p>
-
-![Winning the battle](resources/wonGame.png)
-
-<p>If 2 of your Pokémon faints, you lose! You skip the third game phase and end the game with your results saved.</p>
+<p>If 2 of your Pokémon faints (0 HP), you lose! You skip the third game phase and end the game with your results saved.</p>
 
 ![Losing the battle](resources/lostGame.png)
 
-<p>Back to the Catch Pokémon! phase, you will get a random Pokéball (Poké Ball, Great Ball, Ultra Ball, or Master Ball) and you will be given a chance to catch one of the wild Pokémon.</p>
+<p>If 2 of the wild Pokémon faints, you win! You will then move on to the third game phase - Catch Pokémon!</p>
+
+![Winning the battle](resources/wonGame.png)
+
+<p>In this phase, you will get a random Pokéball (Poké Ball, Great Ball, Ultra Ball, or Master Ball) and you will be given a chance to catch one of the wild Pokémon.</p>
 <p>The chance of the Pokémon being caught is also calculated by a formula based on the Pokémon level and the type of ball used. If you catch it successfully, you get to add it to your owned Pokémon list!</p>
 <p>The game then ends with your results saved.</p>
 
