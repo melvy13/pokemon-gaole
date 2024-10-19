@@ -237,11 +237,21 @@ public class Game {
 	private String gamePhase(int phase) {
 		String phaseTitle = "";
 		switch (phase) {
-			case 1 -> phaseTitle = "Catch Time!";
-			case 2 -> phaseTitle = "Depart For Battle!";
-			case 3 -> phaseTitle = "Catch Pokémon!";
-			case 4 -> phaseTitle = "Check Your Results!";
-			case 5 -> phaseTitle = "Ga-Olé Medals";
+			case 1:
+				phaseTitle = "Catch Time!";
+				break;
+			case 2:
+				phaseTitle = "Depart For Battle!";
+				break;
+			case 3:
+				phaseTitle = "Catch Pokémon!";
+				break;
+			case 4: 
+				phaseTitle = "Check Your Results!";
+				break;
+			case 5: 
+				phaseTitle = "Ga-Olé Medals";
+				break;
 		}
 		return String.format("\n%s\033[1m%s\033[0m%s", ColorCode.BRIGHT_PURPLE, phaseTitle, ColorCode.RESET);
 	}
