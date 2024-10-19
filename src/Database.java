@@ -5,45 +5,45 @@ public class Database {
 	private Scanner pinput;
 	private Formatter poutput;
 	private ArrayList<PlayerRecord> player = new ArrayList<PlayerRecord>();
-	
+
 	// load & store all data from & to player file and close the file
 	public void loadDB() {
-		pinput = openInputFile("src/player.txt");
+		pinput = openInputFile("resources/player.txt");
 		readPlayerFile();
 		closeInputFile(pinput);
 	}
+
 	public void storeDB() {
-		poutput = openOutputFile("src/player.txt");
+		poutput = openOutputFile("resources/player.txt");
 		writePlayerFile();
 		closeOutputFile(poutput);
 	}
-	
+
 	// open file for reading & writing
 	public Scanner openInputFile(String filename) {
 		Scanner initialinput = null;
-		
+
 		try {
 			initialinput = new Scanner(new File(filename));
-		}
-		catch (FileNotFoundException fileNotFoundException) {
+		} catch (FileNotFoundException fileNotFoundException) {
 			System.err.println("Error opening player records.");
 			System.exit(1);
 		}
 		return initialinput;
 	}
+
 	public Formatter openOutputFile(String filename) {
 		Formatter initialoutput = null;
-		
+
 		try {
 			initialoutput = new Formatter(new File(filename));
-		}
-		catch (FileNotFoundException fileNotFoundException) {
+		} catch (FileNotFoundException fileNotFoundException) {
 			System.err.println("Error opening player records.");
 			System.exit(1);
 		}
 		return initialoutput;
 	}
-	
+
 	public void readPlayerFile() {
 		try {
 			while (pinput.hasNext()) {
@@ -55,157 +55,160 @@ public class Database {
 
 				player.add(ply);
 			}
-		}
-		catch (NoSuchElementException elementException) {
+		} catch (NoSuchElementException elementException) {
 			System.err.println("Player file improperly formed.");
 			pinput.close();
 			System.exit(1);
-		}
-		catch (IllegalStateException stateException) {
+		} catch (IllegalStateException stateException) {
 			System.err.println("Error reading from player file.");
 			System.exit(1);
 		}
 	}
+
 	public void writePlayerFile() {
 		for (int p = 0; p < player.size(); p++) {
-			poutput.format("%d %s %d %d\n", player.get(p).getPlayerID(), 
-					player.get(p).getPlayerName(), player.get(p).getPlayerScores(), 
+			poutput.format("%d %s %d %d\n", player.get(p).getPlayerID(),
+					player.get(p).getPlayerName(), player.get(p).getPlayerScores(),
 					player.get(p).getPlayerGaoleMedal());
 		}
 	}
-	
+
 	public void closeInputFile(Scanner input) {
-		if (input!=null)
+		if (input != null)
 			input.close();
 	}
+
 	public void closeOutputFile(Formatter output) {
-		if (output!=null)
+		if (output != null)
 			output.close();
 	}
 
-    
 	public void addScores(int playerID, int scoresToAdd) {
-		
+
 		// Find the player with the given ID
-        PlayerRecord playerToUpdate = null;
+		PlayerRecord playerToUpdate = null;
 
-        for (PlayerRecord playerRecord : player) {
-            if (playerRecord.getPlayerID() == playerID) {
-                playerToUpdate = playerRecord;
-                break;
-            }
-        }
+		for (PlayerRecord playerRecord : player) {
+			if (playerRecord.getPlayerID() == playerID) {
+				playerToUpdate = playerRecord;
+				break;
+			}
+		}
 
-        // If the player is found, update the scores
-        if (playerToUpdate != null) {
-            int currentScores = playerToUpdate.getPlayerScores();
-            int newScores = currentScores + scoresToAdd;
+		// If the player is found, update the scores
+		if (playerToUpdate != null) {
+			int currentScores = playerToUpdate.getPlayerScores();
+			int newScores = currentScores + scoresToAdd;
 
-            // Update the player's scores in the PlayerRecord object
-            playerToUpdate.setPlayerScores(newScores);
+			// Update the player's scores in the PlayerRecord object
+			playerToUpdate.setPlayerScores(newScores);
 
-            // Update the player's record in the ArrayList
-            player.set(player.indexOf(playerToUpdate), playerToUpdate);
+			// Update the player's record in the ArrayList
+			player.set(player.indexOf(playerToUpdate), playerToUpdate);
 
-            System.out.printf("Scores added to database successfully. %sNew scores: %d%s \n", ColorCode.YELLOW, newScores, ColorCode.RESET);
-        } else {
-            System.out.println("Player not found!"); // If player is not found
-        }
-    }
-		
-	
+			System.out.printf("Scores added to database successfully. %sNew scores: %d%s \n", ColorCode.YELLOW,
+					newScores, ColorCode.RESET);
+		} else {
+			System.out.println("Player not found!"); // If player is not found
+		}
+	}
+
 	public void displayTop5scores() {
 		// Sort the players based on scores in descending order
-        Collections.sort(player, (player1, player2) -> Integer.compare(player2.getPlayerScores(), player1.getPlayerScores()));
+		Collections.sort(player,
+				(player1, player2) -> Integer.compare(player2.getPlayerScores(), player1.getPlayerScores()));
 
-        // Display the top 5 players
-        System.out.println("Top 5 Players:");
-        for (int i = 0; i < Math.min(5, player.size()); i++) {
-            PlayerRecord currentPlayer = player.get(i);
-            System.out.println("Player ID: " + currentPlayer.getPlayerID() + ", Scores: " + currentPlayer.getPlayerScores());
-        }
+		// Display the top 5 players
+		System.out.println("Top 5 Players:");
+		for (int i = 0; i < Math.min(5, player.size()); i++) {
+			PlayerRecord currentPlayer = player.get(i);
+			System.out.println(
+					"Player ID: " + currentPlayer.getPlayerID() + ", Scores: " + currentPlayer.getPlayerScores());
+		}
 	}
-	
+
 	public void displayPlayerInfo(int targetPlayerID) {
 		boolean foundPlayer = false;
 		for (PlayerRecord currentPlayer : player) {
-	        if (currentPlayer.getPlayerID() == targetPlayerID) {
-	            System.out.printf("%sPlayer ID: %d  Name: %s  Score: %d  Gaole Medals: %d\n%s", 
-				ColorCode.YELLOW, currentPlayer.getPlayerID(), currentPlayer.getPlayerName(), 
-				currentPlayer.getPlayerScores(), currentPlayer.getPlayerGaoleMedal(), ColorCode.RESET);
-	            foundPlayer = true;
-	            break;  // No need to continue looping if the player is found
-	        }
-	    }
+			if (currentPlayer.getPlayerID() == targetPlayerID) {
+				System.out.printf("%sPlayer ID: %d  Name: %s  Score: %d  Gaole Medals: %d\n%s",
+						ColorCode.YELLOW, currentPlayer.getPlayerID(), currentPlayer.getPlayerName(),
+						currentPlayer.getPlayerScores(), currentPlayer.getPlayerGaoleMedal(), ColorCode.RESET);
+				foundPlayer = true;
+				break; // No need to continue looping if the player is found
+			}
+		}
 
-	    if (!foundPlayer) {
-	        System.out.println("Player with ID " + targetPlayerID + " not found.");
-	    }
-    }
-	
+		if (!foundPlayer) {
+			System.out.println("Player with ID " + targetPlayerID + " not found.");
+		}
+	}
+
 	public void addGaoleMedals(int targetPlayerID, int medalsToAdd) {
-        // Find the player with the given ID
-        PlayerRecord playerToUpdate = null;
-        for (PlayerRecord playerRecord : player) {
-            if (playerRecord.getPlayerID() == targetPlayerID) {
-                playerToUpdate = playerRecord;
-                break;
-            }
-        }
+		// Find the player with the given ID
+		PlayerRecord playerToUpdate = null;
+		for (PlayerRecord playerRecord : player) {
+			if (playerRecord.getPlayerID() == targetPlayerID) {
+				playerToUpdate = playerRecord;
+				break;
+			}
+		}
 
-        // If the player is found, update the Gaole Medals
-        if (playerToUpdate != null) {
-            int currentMedals = playerToUpdate.getPlayerGaoleMedal();
-            int newMedals = currentMedals + medalsToAdd;
+		// If the player is found, update the Gaole Medals
+		if (playerToUpdate != null) {
+			int currentMedals = playerToUpdate.getPlayerGaoleMedal();
+			int newMedals = currentMedals + medalsToAdd;
 
-            // Update the player's Gaole Medals in the PlayerRecord object
-            playerToUpdate.setPlayerGaoleMedal(newMedals);
+			// Update the player's Gaole Medals in the PlayerRecord object
+			playerToUpdate.setPlayerGaoleMedal(newMedals);
 
-            // Update the player's record in the ArrayList
-            player.set(player.indexOf(playerToUpdate), playerToUpdate);
+			// Update the player's record in the ArrayList
+			player.set(player.indexOf(playerToUpdate), playerToUpdate);
 
 			if (currentMedals != newMedals) {
-				System.out.printf("You obtained %s%d Gaole Medals%s this round!\n", ColorCode.YELLOW, medalsToAdd, ColorCode.RESET);
-				System.out.printf("Gaole Medals added successfully. %sNew Gaole Medals: %d%s\n", ColorCode.YELLOW, newMedals, ColorCode.RESET);
+				System.out.printf("You obtained %s%d Gaole Medals%s this round!\n", ColorCode.YELLOW, medalsToAdd,
+						ColorCode.RESET);
+				System.out.printf("Gaole Medals added successfully. %sNew Gaole Medals: %d%s\n", ColorCode.YELLOW,
+						newMedals, ColorCode.RESET);
 			}
-        } else {
-            System.out.println("Player not found!"); // If player is not found
-        }
-    }
+		} else {
+			System.out.println("Player not found!"); // If player is not found
+		}
+	}
 
 	public boolean checkMiracleItem(int targetPlayerID) {
-        // Find the player with the given ID
-        PlayerRecord playerToUpdate = null;
-        for (PlayerRecord playerRecord : player) {
-            if (playerRecord.getPlayerID() == targetPlayerID) {
-                playerToUpdate = playerRecord;
-                break;
-            }
-        }
+		// Find the player with the given ID
+		PlayerRecord playerToUpdate = null;
+		for (PlayerRecord playerRecord : player) {
+			if (playerRecord.getPlayerID() == targetPlayerID) {
+				playerToUpdate = playerRecord;
+				break;
+			}
+		}
 
-        // If the player is found, if medals >= 160, minus the Gaole Medals
-        if (playerToUpdate != null) {
-            int currentMedals = playerToUpdate.getPlayerGaoleMedal();
+		// If the player is found, if medals >= 160, minus the Gaole Medals
+		if (playerToUpdate != null) {
+			int currentMedals = playerToUpdate.getPlayerGaoleMedal();
 			int newMedals = currentMedals;
 			if (currentMedals >= 160) {
 				newMedals -= 160;
 			}
 
-            // Update the player's Gaole Medals in the PlayerRecord object
-            playerToUpdate.setPlayerGaoleMedal(newMedals);
+			// Update the player's Gaole Medals in the PlayerRecord object
+			playerToUpdate.setPlayerGaoleMedal(newMedals);
 
-            // Update the player's record in the ArrayList
-            player.set(player.indexOf(playerToUpdate), playerToUpdate);
+			// Update the player's record in the ArrayList
+			player.set(player.indexOf(playerToUpdate), playerToUpdate);
 
 			if (currentMedals != newMedals) {
-				System.out.printf("160 Gaole Medals have been converted to a Miracle Item! %sNew Gaole Medals: %d%s", 
-				ColorCode.YELLOW, newMedals, ColorCode.RESET);
+				System.out.printf("160 Gaole Medals have been converted to a Miracle Item! %sNew Gaole Medals: %d%s",
+						ColorCode.YELLOW, newMedals, ColorCode.RESET);
 				return true;
 			}
-        } else {
-            System.out.println("Player not found!"); // If player is not found
-        }
+		} else {
+			System.out.println("Player not found!"); // If player is not found
+		}
 		return false;
-    }
-	
+	}
+
 }
