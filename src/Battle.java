@@ -26,24 +26,38 @@ public class Battle {
         return results;
     }
 
+    private void wait(int ms) {
+		try {
+			Thread.sleep(ms);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
     // Battle flow - assign results as "win" or "lose"
     public void startBattle(ArrayList<Pokemon> playerPokemons) {
         displayWildPokemons();
+        wait(1500);
         choosePokemons(playerPokemons);
+        wait(1500);
         while (true) {
             String attacker = battleSequence();
+            wait(1500);
             attack(attacker);
+            wait(1500);
 
             if (wild1.getHp() == 0 && wild2.getHp() == 0) {
                 System.out.println("Both wild pokemons have fainted!");
                 System.out.printf("%sYou win!%s\n", ColorCode.GREEN, ColorCode.RESET);
                 results = "win";
+                wait(1500);
                 break;
                 
             } else if (pokemon1.getHp() == 0 && pokemon2.getHp() == 0) {
                 System.out.println("Your pokemons have fainted!");
                 System.out.printf("%sYou lost! :(%s\n", ColorCode.RED, ColorCode.RESET);
                 results = "lose";
+                wait(1500);
                 break;
             }
         }
@@ -75,7 +89,9 @@ public class Battle {
                 if (playerPokemons.size() < 2) {
                     System.out.println("You don't have enough Pokemons! You need to rent a Pokemon!");
                     int rent = rand.nextInt(pool.size());
+                    wait(1000);
                     System.out.printf("You have randomly rented a %s!\n", pool.get(rent).getName());
+                    wait(1000);
                     System.out.printf("You sent out %s & %s!\n", playerPokemons.get(0).getName(), pool.get(rent).getName());
                     pokemon1 = playerPokemons.get(0);
                     pokemon2 = pool.get(rent);
@@ -133,10 +149,15 @@ public class Battle {
                 continue; // reloop & generate a new enemy's number if userDiff & enemyDiff are the same
             }
 
-            System.out.printf("The hidden number was %s%d%s!\n", ColorCode.CYAN, hiddenNo, ColorCode.RESET);
             System.out.printf("Your number: %s%d%s  Enemy's number: %s%d%s\n", 
             ColorCode.CYAN, userNo, ColorCode.RESET,
             ColorCode.CYAN, enemyNo, ColorCode.RESET);
+            for (int i=0; i < 3; i++) {
+                System.out.print("...");
+                wait(500);
+            }
+            System.out.printf("The hidden number was %s%d%s!\n", ColorCode.CYAN, hiddenNo, ColorCode.RESET);
+            wait(1000);
 
             if (enemyDiff < userDiff) {
                 System.out.println("Enemy's number is closer to the hidden number!");
@@ -179,6 +200,7 @@ public class Battle {
         System.out.printf("%s: %s%d HP%s ; %s: %s%d HP%s\n", 
         def1.getName(), ColorCode.RED, def1.getHp(), ColorCode.RESET, 
         def2.getName(), ColorCode.RED, def2.getHp(), ColorCode.RESET);
+        wait(1000);
 
         if (att1.getHp() > 0 && att2.getHp() > 0) {
             System.out.printf("%s & %s attacked!\n", att1.getName(), att2.getName());
@@ -195,6 +217,7 @@ public class Battle {
             dealAttackDamage(att1, def1);
             dealAttackDamage(att1, def2);
         }
+        wait(1000);
         
         System.out.printf("%s: %s%d HP%s ; %s: %s%d HP%s\n", 
         def1.getName(), ColorCode.RED, def1.getHp(), ColorCode.RESET, 

@@ -206,22 +206,30 @@ public class Game {
 
 		if (player.getMiracleItem() != null) {
 			if (player.getMiracleItem().getName().equals("PokeBall Power")) { // if player has PokeBall Power Miracle Item
-			System.out.println(player.getMiracleItem().use());
-			catchRate *= 1.2;
+				System.out.println(player.getMiracleItem().use());
+				wait(1000);
+				catchRate *= 1.2;
 			}
 		}
 
 		int randomNo = rand.nextInt(1,101);
+		System.out.println("You thrown the ball!");
+		for (int j = 0; j < 3; j++) {
+			System.out.print("...");
+			wait(1000);
+		}
 		if (randomNo <= catchRate) {
-			System.out.printf("You have successfully caught %s!\n", toAdd.getName());
+			System.out.printf("%s\nYou have successfully caught %s!%s\n", ColorCode.GREEN, toAdd.getName(), ColorCode.RESET);
 			player.getPokemonsOwned().add(toAdd);
 			score.updateScoreCatchPokemon(true);
+			wait(1000);
 		}
 
 		else {
-			System.out.println("Oh no! The Pokemon escaped!");
+			System.out.printf("%s\nOh no! The Pokemon escaped! Better luck next time!%s\n", ColorCode.BRIGHT_RED, ColorCode.RESET);
 			gaolemedal.setPokemonRanAway(toAdd);
 			score.updateScoreCatchPokemon(false);
+			wait(1000);
 		}
 	}
 
@@ -236,6 +244,14 @@ public class Game {
 			case 5 -> phaseTitle = "Ga-Olé Medals";
 		}
 		return String.format("\n%s\033[1m%s\033[0m%s", ColorCode.BRIGHT_PURPLE, phaseTitle, ColorCode.RESET);
+	}
+
+	private void wait(int ms) {
+		try {
+			Thread.sleep(ms);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	// Game flow
@@ -256,6 +272,8 @@ public class Game {
 					player = i;
 					System.out.println("\nHello player! This is your current info: ");
 					DB.displayPlayerInfo(id);
+					System.out.println("\nLet's play!");
+					wait(1500);
 					break;
 				}
 			}
@@ -271,15 +289,18 @@ public class Game {
 			
 			System.out.println(gamePhase(1));
 			setPokemonPool();
+			wait(1000);
 
 			if (player.getMiracleItem() != null) {
 				if (player.getMiracleItem().getName().equals("Attack Capsule")) { // if player has Attack Capsule Miracle Item
 					System.out.println(player.getMiracleItem().use());
+					wait(1000);
 					for (Pokemon i : player.getPokemonsOwned()) {
 						i.setAtt((int)(i.getAtt()*1.2));
 					}
 				} else if (player.getMiracleItem().getName().equals("Defense Capsule")) {  // if player has Defense Capsule Miracle Item
 					System.out.println(player.getMiracleItem().use());
+					wait(1000);
 					for (Pokemon i : player.getPokemonsOwned()) {
 						i.setDef((int)(i.getDef()*1.2));
 					}
@@ -300,9 +321,11 @@ public class Game {
 			System.out.println(gamePhase(4));
 			score.displayScores();
 			DB.addScores(player.getPlayerID(), score.getScore());
+			wait(1500);
 
 			System.out.println(gamePhase(5));
 			gaolemedal.earnGaoleMedal(); // If Pokemon caught - skip ; If Pokemon escaped - Get Gaole Medals
+			wait(1500);
 			DB.addGaoleMedals(player.getPlayerID(), gaolemedal.getGaoleMedals()); // add to database
 			gaolemedal.setGaoleMedals(0); // reset gaole medals count in GaoleMedal class
 
@@ -311,6 +334,7 @@ public class Game {
 				MiracleItem miracleitem = gaolemedal.MiracleItemChance(); // generate random miracle item
 				player.setMiracleItem(miracleitem);
 				System.out.printf("You received a %s!\n", miracleitem.getName());
+				wait(1500);
 			}
 
 			System.out.println("\nPlay again? Enter [0] to exit game and any other keys to continue.");
@@ -328,5 +352,6 @@ public class Game {
 		System.out.println();
 		DB.displayTop5scores();
 		DB.storeDB();
+		System.out.println("\nSee you next time!");
 	}
 }
