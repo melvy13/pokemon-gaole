@@ -343,7 +343,7 @@ public class Game {
 			if (getmiracleitem) {
 				MiracleItem miracleitem = gaolemedal.MiracleItemChance(); // generate random miracle item
 				player.setMiracleItem(miracleitem);
-				System.out.printf("You received a %s!\n", miracleitem.getName());
+				System.out.printf("\nYou received a %s!\n", miracleitem.getName());
 				wait(1500);
 			}
 
