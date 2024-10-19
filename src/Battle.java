@@ -36,12 +36,13 @@ public class Battle {
 
             if (wild1.getHp() == 0 && wild2.getHp() == 0) {
                 System.out.println("Both wild pokemons have fainted!");
-                System.out.println("You win!\n");
+                System.out.printf("%sYou win!%s\n", ColorCode.GREEN, ColorCode.RESET);
                 results = "win";
                 break;
+                
             } else if (pokemon1.getHp() == 0 && pokemon2.getHp() == 0) {
                 System.out.println("Your pokemons have fainted!");
-                System.out.println("You lose!\n");
+                System.out.printf("%sYou lost! :(%s\n", ColorCode.RED, ColorCode.RESET);
                 results = "lose";
                 break;
             }
@@ -114,9 +115,12 @@ public class Battle {
     // 3. User input a random number
     // 4. Whoever's random number is closer to the hidden number will attack first
     private String battleSequence() {
-        System.out.println("\nA hidden number from 1-100 is generated. Whoever's input number is closer to the hidden number will attack!");
+        System.out.printf("\nA hidden number from %s1-100%s is generated. Whoever's input number is closer to the hidden number will attack!\n", 
+        ColorCode.CYAN, ColorCode.RESET);
+
         int hiddenNo = rand.nextInt(1, 101);
-        System.out.print("Input a random number from 1-100!: ");
+        System.out.printf("Input a random number from %s1-100%s!: ", ColorCode.CYAN, ColorCode.RESET);
+
         int userNo = input.nextInt();
         String attacker; // to return either "enemy" or "user" for whoever is attacking
 
@@ -129,19 +133,21 @@ public class Battle {
                 continue; // reloop & generate a new enemy's number if userDiff & enemyDiff are the same
             }
 
-            System.out.printf("The hidden number was %d!\n", hiddenNo);
-            System.out.printf("Your number: %d  Enemy's number: %d\n", userNo, enemyNo);
+            System.out.printf("The hidden number was %s%d%s!\n", ColorCode.CYAN, hiddenNo, ColorCode.RESET);
+            System.out.printf("Your number: %s%d%s  Enemy's number: %s%d%s\n", 
+            ColorCode.CYAN, userNo, ColorCode.RESET,
+            ColorCode.CYAN, enemyNo, ColorCode.RESET);
 
             if (enemyDiff < userDiff) {
                 System.out.println("Enemy's number is closer to the hidden number!");
-                System.out.println("Enemy will attack!\n");
+                System.out.printf("%sEnemy will attack!%s\n\n", ColorCode.BRIGHT_RED, ColorCode.RESET);
                 attacker = "enemy";
                 break;
             }
 
             else {
                 System.out.println("Your number is closer to the hidden number!");
-                System.out.println("You will attack!\n");
+                System.out.printf("%sYou will attack!%s\n\n", ColorCode.BRIGHT_GREEN, ColorCode.BRIGHT_GREEN);
                 attacker = "user";
                 break;
             }
@@ -170,7 +176,10 @@ public class Battle {
 
     // Attacking
     private void attack(Pokemon att1, Pokemon att2, Pokemon def1, Pokemon def2) {
-        System.out.printf("%s: %d HP ; %s: %d HP\n", def1.getName(), def1.getHp(), def2.getName(), def2.getHp());
+        System.out.printf("%s: %s%d HP%s ; %s: %s%d HP%s\n", 
+        def1.getName(), ColorCode.RED, def1.getHp(), ColorCode.RESET, 
+        def2.getName(), ColorCode.RED, def2.getHp(), ColorCode.RESET);
+
         if (att1.getHp() > 0 && att2.getHp() > 0) {
             System.out.printf("%s & %s attacked!\n", att1.getName(), att2.getName());
             dealAttackDamage(att1, def1);
@@ -187,7 +196,9 @@ public class Battle {
             dealAttackDamage(att1, def2);
         }
         
-        System.out.printf("%s: %d HP ; %s: %d HP\n", def1.getName(), def1.getHp(), def2.getName(), def2.getHp());
+        System.out.printf("%s: %s%d HP%s ; %s: %s%d HP%s\n", 
+        def1.getName(), ColorCode.RED, def1.getHp(), ColorCode.RESET, 
+        def2.getName(), ColorCode.RED, def2.getHp(), ColorCode.RESET);
     }
 
     // Deal damage to pokemon - Convert HP to 0 if it goes below 0

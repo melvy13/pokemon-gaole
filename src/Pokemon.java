@@ -22,7 +22,7 @@ public class Pokemon {
 
     // Getters & Setters
     public String getName() {
-        return name;
+        return ColorCode.BRIGHT_BLUE + name + ColorCode.RESET;
     }
     public void setName(String name) {
         this.name = name;

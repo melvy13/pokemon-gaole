@@ -8,12 +8,12 @@ public class Database {
 	
 	// load & store all data from & to player file and close the file
 	public void loadDB() {
-		pinput = openInputFile("player.txt");
+		pinput = openInputFile("src/player.txt");
 		readPlayerFile();
 		closeInputFile(pinput);
 	}
 	public void storeDB() {
-		poutput = openOutputFile("player.txt");
+		poutput = openOutputFile("src/player.txt");
 		writePlayerFile();
 		closeOutputFile(poutput);
 	}
@@ -107,7 +107,7 @@ public class Database {
             // Update the player's record in the ArrayList
             player.set(player.indexOf(playerToUpdate), playerToUpdate);
 
-            System.out.println("Scores added to database successfully. New scores: " + newScores);
+            System.out.printf("Scores added to database successfully. %sNew scores: %d%s \n", ColorCode.YELLOW, newScores, ColorCode.RESET);
         } else {
             System.out.println("Player not found!"); // If player is not found
         }
@@ -130,8 +130,9 @@ public class Database {
 		boolean foundPlayer = false;
 		for (PlayerRecord currentPlayer : player) {
 	        if (currentPlayer.getPlayerID() == targetPlayerID) {
-	            System.out.printf("Player ID: %d  Name: %s  Score: %d  Gaole Medals: %d\n", 
-				currentPlayer.getPlayerID(), currentPlayer.getPlayerName(), currentPlayer.getPlayerScores(), currentPlayer.getPlayerGaoleMedal());
+	            System.out.printf("%sPlayer ID: %d  Name: %s  Score: %d  Gaole Medals: %d\n%s", 
+				ColorCode.YELLOW, currentPlayer.getPlayerID(), currentPlayer.getPlayerName(), 
+				currentPlayer.getPlayerScores(), currentPlayer.getPlayerGaoleMedal(), ColorCode.RESET);
 	            foundPlayer = true;
 	            break;  // No need to continue looping if the player is found
 	        }
@@ -164,8 +165,8 @@ public class Database {
             player.set(player.indexOf(playerToUpdate), playerToUpdate);
 
 			if (currentMedals != newMedals) {
-				System.out.printf("You obtained %d Gaole Medals this round!\n", medalsToAdd);
-				System.out.println("Gaole Medals added successfully. New Gaole Medals: " + newMedals);
+				System.out.printf("You obtained %s%d Gaole Medals%s this round!\n", ColorCode.YELLOW, medalsToAdd, ColorCode.RESET);
+				System.out.printf("Gaole Medals added successfully. %sNew Gaole Medals: %d%s\n", ColorCode.YELLOW, newMedals, ColorCode.RESET);
 			}
         } else {
             System.out.println("Player not found!"); // If player is not found
@@ -197,7 +198,8 @@ public class Database {
             player.set(player.indexOf(playerToUpdate), playerToUpdate);
 
 			if (currentMedals != newMedals) {
-				System.out.println("160 Gaole Medals have been converted to a Miracle Item! New Gaole Medals: " + newMedals);
+				System.out.printf("160 Gaole Medals have been converted to a Miracle Item! %sNew Gaole Medals: %d%s", 
+				ColorCode.YELLOW, newMedals, ColorCode.RESET);
 				return true;
 			}
         } else {

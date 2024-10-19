@@ -27,6 +27,6 @@ public class Score {
     }
 
     public void displayScores() {
-        System.out.printf("You obtained %d score this round!\n", score);
+        System.out.printf("You obtained %s%d score%s this round!\n", ColorCode.YELLOW, score, ColorCode.RESET);
     }
 }

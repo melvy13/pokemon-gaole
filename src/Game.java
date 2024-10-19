@@ -224,16 +224,29 @@ public class Game {
 			score.updateScoreCatchPokemon(false);
 		}
 	}
+
+	// Returns formatted game title based on current phase of the game
+	private String gamePhase(int phase) {
+		String phaseTitle = "";
+		switch (phase) {
+			case 1 -> phaseTitle = "Catch Time!";
+			case 2 -> phaseTitle = "Depart For Battle!";
+			case 3 -> phaseTitle = "Catch Pokémon!";
+			case 4 -> phaseTitle = "Check Your Results!";
+			case 5 -> phaseTitle = "Ga-Olé Medals";
+		}
+		return String.format("\n%s\033[1m%s\033[0m%s", ColorCode.BRIGHT_PURPLE, phaseTitle, ColorCode.RESET);
+	}
 	
 	// Game flow
 	public void startGame() {
 		setPokemonLevel();
 		DB.loadDB();
 
-		System.out.println("--------------------------------");
+		System.out.println(ColorCode.BRIGHT_PURPLE + "--------------------------------");
 		System.out.println("   Welcome to Pokémon Ga-Olé!   ");
 		System.out.println("    \"Battle and Catch\" mode    ");
-		System.out.println("--------------------------------\n");
+		System.out.println("--------------------------------\n" + ColorCode.RESET);
 
 		while (player == null) {
 			System.out.print("Please type in your playerID: ");
@@ -241,6 +254,8 @@ public class Game {
 			for (Player i : playerList) {
 				if (i.getPlayerID() == id) {
 					player = i;
+					System.out.println("\nHello player! This is your current info: ");
+					DB.displayPlayerInfo(id);
 					break;
 				}
 			}
@@ -254,7 +269,7 @@ public class Game {
 			healAllPokemons(); // reset all pokemon's HP
 			pool.clear(); // reset pool
 			
-			System.out.println("\033[1mCatch Time!\033[0m");
+			System.out.println(gamePhase(1));
 			setPokemonPool();
 
 			if (player.getMiracleItem() != null) {
@@ -271,22 +286,22 @@ public class Game {
 				}
 			}
 			
-			System.out.println("\n\033[1mDepart For Battle!\033[0m");
+			System.out.println(gamePhase(2));
 			battle.startBattle(player.getPokemonsOwned());
 
 			if (battle.getResults().equals("win")) {
 				score.updateScoreWonBattle(true);
-				System.out.println("\033[1mCatch Pokémon!\033[0m"); // only go to catch pokemon if you won - skip if you lost battle
+				System.out.println(gamePhase(3)); // only go to catch pokemon if you won - skip if you lost battle
 				catchPokemon();			
 			} else if (battle.getResults().equals("lose")) {
 				score.updateScoreWonBattle(false);
 			}
 
-			System.out.println("\n\033[1mCheck Your Results!\033[0m");
+			System.out.println(gamePhase(4));
 			score.displayScores();
 			DB.addScores(player.getPlayerID(), score.getScore());
 
-			System.out.println("\n\033[1mGa-Olé Medals\033[0m");
+			System.out.println(gamePhase(5));
 			gaolemedal.earnGaoleMedal(); // If Pokemon caught - skip ; If Pokemon escaped - Get Gaole Medals
 			DB.addGaoleMedals(player.getPlayerID(), gaolemedal.getGaoleMedals()); // add to database
 			gaolemedal.setGaoleMedals(0); // reset gaole medals count in GaoleMedal class
