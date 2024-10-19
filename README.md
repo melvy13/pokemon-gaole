@@ -1,21 +1,10 @@
-# prg1203-pokessignment
-Java console program that imitates the Pokemon Ga-Ole game
+# About
 
-UML Diagram: https://app.diagrams.net/#G1NdVyJooq2UGCAlhIzcAXmQYXqX1VvJNd
-
-Program Flow Draft: https://docs.google.com/document/d/1wL7e-JiF5f8D7hEwn5blS1R62kNSNY3vZR4nuj5tty8/edit
-
-Report: https://imailsunwayedu-my.sharepoint.com/:w:/g/personal/23011695_imail_sunway_edu_my/EU7FZ7DshglFmi7jWIddCtgBpUwPxMF39wX0zTMoNIc00g?e=sWDutv
-
-	Pokemon Damage Calculation
- 
-	Assume:
-	Grade1 Pokemon Level = 30
-	Grade2 Pokemon Level = 40
-	Grade3 Pokemon Level = 50
-	Grade4 Pokemon Level = 60
-	All AttackPower = 50
-	No STAB effect
-	RandomNumber between 85-100
-
-	Damage = ((0.4 * level + 2) * Attack / Defense + 2) * Effectiveness * Random.nextDouble(0.85, 1.00)
+<h4>A simple Java console program that imitates the Pokémon Ga-Olé arcade game - Battle and Catch mode. 🕹️</h4>
+<h4>This project is done in collaboration with:</h4>
+<ul>
+	<li>Chan Kah Gin</li>
+	<li>Lee Wen Xuan</li>
+	<li>Ho Zi Shan</li>
+	<li>Ilyana Sofiya Binti Muhammad Najeli</li>
+</ul>
