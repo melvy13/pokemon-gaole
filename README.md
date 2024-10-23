@@ -74,7 +74,7 @@
 
 <p>These medals can be accumulated, and when you reach a total of 160 Ga-Olé medals, it will be exchanged for a random boost item (Attack, Defense or Pokeball Power), which can be used when playing the next round!</p>
 
-## Upcoming (hopefully)
+## For the Future
 
-<p>This program can definitely be further improved in the future. Maybe more Pokémon, better battling system, better players info saving.</p>
-<p>We (probably) need moral support. Programming is not easy :(</p>
+<p>This program will (hopefully) be updated and further improved in the future with more Pokémon, better battling system, better players info saving, etc.</p>
+<p>We've debugged this code so many times that our computers need a therapist. Programming is not easy :(</p>
