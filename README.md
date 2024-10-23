@@ -32,7 +32,7 @@
 
 <p>Now you are ready for battle, the second game phase starts - Depart For Battle!</p>
 <p>Two wild Pokémon will appear. Pick two Pokémon from your list of owned Pokémon to fight them!</p>
-<p>Do not worry if you are poor (like me) and do not have enough Pokémon. A random Pokémon will be rented to you to fight them!</p>
+<p>Do not worry if you are poor (like Player 3) and do not have enough Pokémon. A random Pokémon will be rented to you to fight them!</p>
 
 ![Depart For Battle!](resources/battle.png)
 
